@@ -1,0 +1,5 @@
+eventlog
+*.exe
+*.log
+.DS_Store
+/data/
