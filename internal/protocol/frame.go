@@ -10,10 +10,21 @@ const (
 	TypePing uint16 = 1
 	TypePong uint16 = 2
 	//new operation => new constants
-	TypeProduce     uint16 = 3 // payload = the message
+	TypeProduce     uint16 = 3 // payload = [1-byte partition][message]
 	TypeProduceResp uint16 = 4 // payload = 8-byte offset
 	TypeError       uint16 = 5 // payload = error text
-	
+
+	// replication (leader -> follower)
+	TypeReplicate       uint16 = 6 // payload = [1-byte partition][8-byte offset][message]
+	TypeReplicateAck    uint16 = 7 // payload = 8-byte offset the follower stored
+	TypeReplicateBehind uint16 = 8 // payload = 8-byte offset the follower expects next ("I'm at page N")
+
+	// reading
+	TypeFetch     uint16 = 9  // payload = [1-byte partition][8-byte from offset][4-byte max records]
+	TypeFetchResp uint16 = 10 // payload = records, each [8-byte offset][4-byte length][data] (empty = nothing new)
+
+	// backpressure
+	TypeBusy uint16 = 11 // payload = text. "Too many orders right now, try again in a moment." Nothing was saved.
 )
 
 const MaxFrameSize = 1 << 20 // 1 MiB

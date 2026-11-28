@@ -40,7 +40,7 @@ func TestManyProducers(t *testing.T) {
 			conn.SetDeadline(time.Now().Add(5 * time.Second))
 			for i := 0; i < perProducer; i++ {
 				msg := fmt.Sprintf("p%d-m%d", p, i)
-				if err := protocol.WriteFrame(conn, protocol.TypeProduce, []byte(msg)); err != nil {
+				if err := protocol.WriteFrame(conn, protocol.TypeProduce, append([]byte{0}, msg...)); err != nil {
 					t.Error(err)
 					return
 				}

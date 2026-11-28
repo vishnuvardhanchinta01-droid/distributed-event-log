@@ -37,7 +37,7 @@ func TestProduce(t *testing.T) {
 	conn.SetDeadline(time.Now().Add(2 * time.Second)) // don't hang forever if the broker never replies
 
 	for i, msg := range []string{"apple", "banana", "cherry"} {
-		if err := protocol.WriteFrame(conn, protocol.TypeProduce, []byte(msg)); err != nil {
+		if err := protocol.WriteFrame(conn, protocol.TypeProduce, append([]byte{0}, msg...)); err != nil {
 			t.Fatal(err)
 		}
 		typ, p, err := protocol.ReadFrame(conn)

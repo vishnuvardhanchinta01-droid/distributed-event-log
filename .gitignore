@@ -3,3 +3,5 @@ eventlog
 *.log
 .DS_Store
 /data/
+/bin/
+/interview-prep/
